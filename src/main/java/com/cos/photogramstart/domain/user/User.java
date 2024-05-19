@@ -1,15 +1,12 @@
 package com.cos.photogramstart.domain.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Generated;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 //JPA-Java Persistence API 자바로 데이터를 영구적으로 저장(DB)할 수 있는 API제공
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -19,10 +16,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)//번호 증가 전략이 데이터베이스를 따라감
     private Long id;
 
+    @Column(length =20, unique = true)
     private String username;
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private String name;
     private String website;
     private String bio;
+    @Column(nullable = false)
     private String email;
     private String phone;
     private String gender;
