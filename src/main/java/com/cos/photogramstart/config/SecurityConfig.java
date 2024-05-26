@@ -22,9 +22,9 @@ public class SecurityConfig {
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                .loginPage("/auth/signin")
+                .loginPage("/auth/signin") //Get
+                .loginProcessingUrl("/auth/signin")//POST ->스프링 시큐리티가 로그인 프로세스진행
                 .defaultSuccessUrl("/");
             return http.build();
-
     }
 }

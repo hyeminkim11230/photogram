@@ -43,7 +43,7 @@ public class AuthController {
 
     //회원가입버튼 -> /auth/signup ->/auth/signin
     @PostMapping("/auth/signup")
-    public @ResponseBody String signup(@Valid SignupDto signupDto, BindingResult bindingResult) {//key=value(x-www-form-urlencoded)
+    public String signup(@Valid SignupDto signupDto, BindingResult bindingResult) {//key=value(x-www-form-urlencoded)
 //        if(signupDto.getUsername().length()>20){
 //            System.out.println("너 길익 초과했어"); //validation 체크
 //        }
@@ -60,9 +60,9 @@ public class AuthController {
         }
         //User <- SignupDto
         User user = signupDto.toEntity();
-        User userEntity = authService.signup(user);
-        System.out.println(userEntity);
-        log.info(user.toString());
+//        User userEntity = authService.signup(user);
+//        System.out.println(userEntity);
+//        log.info(user.toString());
         return"auth/signup";
     }
 }

@@ -37,6 +37,6 @@ public class User {
 
     @PrePersist //디비에 INSERT되기 직전에 실행
     public void setCreateDate() {
-        this.createDate =LocalDateTime.now();
+        this.createDate = LocalDateTime.now();
     }
 }
