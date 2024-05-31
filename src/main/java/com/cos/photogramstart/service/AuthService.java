@@ -16,7 +16,7 @@ public class AuthService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
-    public User signup(User user){ //외부에서 받아온 user
+    public User 회원가입(User user){ //외부에서 받아온 user
         //회원가입 진행
         String rawPassword = user.getPassword();
         String encPassword=bCryptPasswordEncoder.encode(rawPassword);

@@ -18,7 +18,7 @@ public class SecurityConfig {
     SecurityFilterChain configure(HttpSecurity http) throws Exception{
         http.csrf().disable(); // csrf토큰 비활성화
         http.authorizeRequests()
-                .antMatchers("/","/user/**","/subscribe/**","/comment/**").authenticated()
+                .antMatchers("/","/user/**","/subscribe/**","/comment/**","/api/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()

@@ -1,7 +1,7 @@
 package com.cos.photogramstart.util;
 
 public class Script {
-    public static String back(){
+    public static String back(String string){
         StringBuffer sb = new StringBuffer();
         sb.append("<script");
 //        sb.append("slert(" + msg + ")");

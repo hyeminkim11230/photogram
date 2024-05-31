@@ -44,25 +44,20 @@ public class AuthController {
     //회원가입버튼 -> /auth/signup ->/auth/signin
     @PostMapping("/auth/signup")
     public String signup(@Valid SignupDto signupDto, BindingResult bindingResult) {//key=value(x-www-form-urlencoded)
-//        if(signupDto.getUsername().length()>20){
-//            System.out.println("너 길익 초과했어"); //validation 체크
-//        }
-        if(bindingResult.hasGlobalErrors()) {
-            Map<String,String> errorMap =new HashMap<>();
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorMap = new HashMap<>();
 
-            for(FieldError error:bindingResult.getFieldErrors()){
-                errorMap.put(error.getField(),error.getDefaultMessage());
-                System.out.println("======================================");
-                System.out.println(error.getDefaultMessage());
-                System.out.println("======================================");
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errorMap.put(error.getField(), error.getDefaultMessage());
             }
-            throw new CustomValidationException("유효성검사 실패",errorMap);
+
+            throw new CustomValidationException("유효성검사 실패함", errorMap);
+        } else {
+            User user = signupDto.toEntity();
+            User userEntity = authService.회원가입(user);
+            System.out.println(userEntity);
+
+            return "auth/signin";
         }
-        //User <- SignupDto
-        User user = signupDto.toEntity();
-//        User userEntity = authService.signup(user);
-//        System.out.println(userEntity);
-//        log.info(user.toString());
-        return"auth/signup";
     }
 }
