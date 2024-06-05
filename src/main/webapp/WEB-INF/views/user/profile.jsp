@@ -26,10 +26,32 @@
 		<!--유저정보 및 사진등록 구독하기-->
 		<div class="profile-right">
 			<div class="name-group">
-				<h2>${user.name}</h2>
+				<h2>${dto.user.name}</h2>
 
-				<button class="cta" onclick="location.href='/image/upload'">사진등록</button>
-				<button class="cta" onclick="toggleSubscribe(this)">구독하기</button>
+				<c:choose>
+<%--					<c:when test="${principal.user.id==user.id}"> //이런 로직 필요없어짐--%>
+					<c:when test="${dto.isPageOwner}">
+						<button class="cta"onclick="location.href-'/image/upload'">사진등록</button>
+					</c:when>
+					<c:otherwise>
+						<c:choose>
+							<c:when test="">
+								<button class="cta blue"onclick="toggleSubscribe()"
+							</c:when>
+						</c:choose>
+							<c:choose>
+								<c:when test="${dto.subscribeState}">
+									<button class="cta blue"onclick="toggleSubscribe(${dto.user.id}),this">구독취소</button>
+								</c:when>
+								<c:otherwise>
+									<button class="cta"onclick="toggleSubscribe(${dto.user.id}),this">구독하기</button>
+								</c:otherwise>
+							</c:choose>
+					</c:otherwise>
+				</c:choose>
+
+<%--				<button class="cta" onclick="location.href='/image/upload'">사진등록</button>--%>
+<%--				<button class="cta" onclick="toggleSubscribe(this)">구독하기</button>--%>
 				<button class="modi" onclick="popup('.modal-info')">
 					<i class="fas fa-cog"></i>
 				</button>
@@ -37,15 +59,15 @@
 
 			<div class="subscribe">
 				<ul>
-					<li><a href=""> 게시물<span>3</span>
+					<li><a href=""> 게시물<span>${dto.imagesCount}</span>
 					</a></li>
-					<li><a href="javascript:subscribeInfoModalOpen();"> 구독정보<span>2</span>
+					<li><a href="javascript:subscribeInfoModalOpen();"> 구독정보<span>${dto.subscribeCount}</span>
 					</a></li>
 				</ul>
 			</div>
 			<div class="state">
-				<h4>${user.bio}</h4>
-				<h4>${user.website}</h4>
+				<h4>${dto.user.bio}</h4>
+				<h4>${dto.user.website}</h4>
 			</div>
 		</div>
 		<!--유저정보 및 사진등록 구독하기-->
@@ -64,7 +86,7 @@
 
 				<!--아이템들-->
 
-				<c:forEach var="image" items="${user.images}"> <!--EL표현식에서 변수명을 적으면 get함수가 자동호출-->
+				<c:forEach var="image" items="${dto.user.images}"> <!--EL표현식에서 변수명을 적으면 get함수가 자동호출-->
 				<div class="img-box">
 					<a href=""> <img src="${image.postImageUrl}"/>
 					</a>

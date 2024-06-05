@@ -1,9 +1,11 @@
 package com.cos.photogramstart.service;
 
+import com.cos.photogramstart.domain.subscribe.SubscribeRepository;
 import com.cos.photogramstart.domain.user.User;
 import com.cos.photogramstart.domain.user.UserRepository;
 import com.cos.photogramstart.handler.ex.CustomException;
 import com.cos.photogramstart.handler.ex.CustomValidationApiException;
+import com.cos.photogramstart.web.dto.user.UserProfileDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,16 +16,30 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final SubscribeRepository subscribeRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public User 회원프로필(int userId){
+    @Transactional(readOnly = true)
+    public UserProfileDto 회원프로필(int pageUserId, int principalId){
+        UserProfileDto dto = new UserProfileDto();
+
         //SELECT*FROM image WHERE userId=:userId; jpa사용해서 작성할 경우
-        User userEntity = userRepository.findById(userId).orElseThrow(()-> {
+        User userEntity = userRepository.findById(pageUserId).orElseThrow(()-> {
             throw new CustomException("해당 프로필 페이지는 없는 페이지입니다.");
         });
 //        userEntity.getImages().get(0);
+        dto.setUser(userEntity);
+        dto.setPageOwnerState(pageUserId==principalId);
+        dto.setImageCount(userEntity.getImages().size());
 
-        return userEntity;
+        int subscribeState = subscribeRepository.mSubscribState(principalId, pageUserId);
+        int subscribeCount = subscribeRepository.mSubscribeCount(pageUserId);
+
+        dto.setSubscribeState(subscribeState == 1);
+        dto.setSubscribeCount(subscribeCount);
+//        dto.setIsPageOwner(pageUserId==principalId);
+//        dto.setIsPageOwner(1); //1은 페이지 소유자,-1은 소유자가 아님
+        return dto;
     }
 
     @Transactional
