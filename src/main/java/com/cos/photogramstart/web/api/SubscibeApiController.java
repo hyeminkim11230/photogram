@@ -1,7 +1,7 @@
 package com.cos.photogramstart.web.api;
 
 import com.cos.photogramstart.config.auth.PrincipalDetails;
-import com.cos.photogramstart.service.SubscribeSeivice;
+import com.cos.photogramstart.service.SubscribeService;
 import com.cos.photogramstart.web.dto.auth.CMRespDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SubscibeApiController {
 
-    private final SubscribeSeivice subscribeService;
+    private final SubscribeService subscribeService;
     @PostMapping("/api/subscibe/{toUserId}")
     public ResponseEntity<?> subscribe(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable int toUserId){
 //        int result = subscribeService.구독하기(principalDetails.getUser().getId(),toUserId);
