@@ -7,18 +7,24 @@ import com.cos.photogramstart.web.dto.image.ImageUploadDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
 public class ImageService {
-
-
     private final ImageRepository imageRepository;
+    @Transactional(readOnly = true) //영속석 컨텍스트에서 변경감지를 해서 변경되었으면 더티체킹을 하고 ,flush 반영을 함
+    public List<Image> 이미지스토리(int principalId){
+        List<Image> images = imageRepository.mStory(principalId);
+        return  images;
+    }
+
 
     @Value("${file.path}")
     private String uploadFolder;

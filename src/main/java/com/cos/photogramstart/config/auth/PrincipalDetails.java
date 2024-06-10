@@ -9,32 +9,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Data
-public class PrincipalDetails implements UserDetails {
-
-    private static final long serialVersionUID=1L;
-
+public class PrincipalDetails implements UserDetails{
     private User user;
 
-    public PrincipalDetails(User user){
-        this.user=user;
+    public PrincipalDetails(User user) {
+        this.user = user;
     }
 
-    //권한이 한개가 아닐 수 있음 (3개 이상의 권한을 가지고 있을 수 있음)
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        Collection<GrantedAuthority> collector = new ArrayList<>();
-//        collector.add(new GrantedAuthority() {
-//            @Override
-//            public String getAuthority() {
-//                return user.getRole();
-//            }
-//        });
-
-        //위의 식을 람다식으로 작성함
-        collector.add(()->{return user.getRole();});
-        return collector;
-    }
 
     @Override
     public String getPassword() {
@@ -48,7 +29,7 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return true ;
     }
 
     @Override
@@ -64,5 +45,12 @@ public class PrincipalDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Collection<GrantedAuthority> collectors = new ArrayList<>();
+        collectors.add(()-> "ROLE_"+ user.getRole());
+        return collectors;
     }
 }

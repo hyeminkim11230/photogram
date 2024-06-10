@@ -9,10 +9,24 @@
 
 // (1) 스토리 로드하기
 function storyLoad() {
-
+	$.ajax({
+		url:`/api/image`,
+		dataTypeL:"json"
+	}).done(res=>{
+		console.log(res);
+		res.data.forEach((image)=>{
+			let storyItem = getStoryItem(image);
+			$("#storyList").append(storyItem);
+		});
+	}).fail(error=>{
+		console.log("오류",error);
+	})
 }
 
-function getStoryItem() {
+storyLoad();
+
+function getStoryItem(image) {
+	let item = ``
 
 }
 
